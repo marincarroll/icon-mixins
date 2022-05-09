@@ -1,0 +1,38 @@
+@use 'variables' as *;
+
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
+@function inline-svg($w, $h, $d, $c: '') {
+    @if not ($c == '') {
+        $c: 'fill="#{$c}" ';
+    }
+    @return url("data:image/svg+xml,<svg #{$c}xmlns='http://www.w3.org/2000/svg' viewBox='0 0 #{$w} #{$h}'><path d='#{$d}'/></svg>");
+}
+  
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@function build-icon($name, $width, $color: '') {
+    $points: map-deep-get($icons, $name, 'points');
+    $iconWidth: map-deep-get($icons, $name, 'width');
+    $iconHeight: map-deep-get($icons, $name, 'height');
+    @if ($iconHeight == null) {
+        $iconHeight: $iconWidth;
+    }
+    $ratio: calc($iconWidth / $iconHeight);
+
+    @return (
+        svg: inline-svg($iconWidth, $iconHeight, $points, $color),
+        height: calc($width / $ratio)
+    )
+}

@@ -1,0 +1,13 @@
+{
+    "name": "icon-mixins",
+    "author": "Marin Carroll marin@marincarroll.com",
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "start": "sass scss:css -w",
+        "build": "sass scss:css -s compressed"
+    },
+    "devDependencies": {
+        "sass": "^1.49.9"
+    }
+}

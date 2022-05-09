@@ -1,0 +1,33 @@
+@use 'functions' as *;
+
+@mixin icon-pseudo( $name, $width: 1em ) {
+    $icon: build-icon($name, $width);
+    $svg: map-get($icon, svg);
+    $height: map-get($icon, height);
+  
+    &:after {
+        content: '';
+        display: inline-block;
+        background: currentColor;
+        -webkit-mask-image: $svg;
+        mask-image: $svg;
+        width: $width;
+        height: $height;
+    }
+  }
+  
+  @mixin icon-bg( $name, $color, $width: 1em ) {
+    $icon: build-icon($name, $width, $color);
+    $svg: map-get($icon, svg);
+    $svg: str-replace( $svg, '#', '%23' ); 
+    $height: map-get($icon, height);
+  
+    /* Convert hex code for use in SVG. 
+     * Any type of color value can be used -
+     * Hex, name, or SCSS variable!
+     */
+    background-image: $svg;
+    background-size: $width $height;
+    background-repeat: no-repeat;
+  }
+  
